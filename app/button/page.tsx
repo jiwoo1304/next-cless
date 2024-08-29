@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import { colorSet } from "../../components/page";
-import OldButton from "../../components/oldButton";
+import { colorSet } from "../components/page";
+import OldButton from "../components/oldButton";
 
 interface Props {}
 

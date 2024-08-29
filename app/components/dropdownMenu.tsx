@@ -1,14 +1,31 @@
 "use client";
 import React, { ReactNode, useState } from "react";
+import "./dropdownMenu.module.css";
+import { doesNotThrow } from "assert";
+import { log } from "console";
+import { useRouter } from "next/navigation";
 
 const alignType = {
   left: 0,
   right: "",
 };
 
+const funcs = {
+  logout: () => {
+    console.log("Log out!");
+  },
+};
+
+export type MenuType = {
+  title?: string;
+  icon?: JSX.Element;
+  url?: string;
+  func?: "logout";
+};
+
 interface Props {
   children: ReactNode;
-  menu: { title?: string; icon?: JSX.Element }[];
+  menu: Array<MenuType>;
   align?: "left" | "right";
   textColor?: string;
   backgrounColor?: string;
@@ -21,10 +38,15 @@ const DropdownMenu: React.FC<Props> = ({
   textColor,
   backgrounColor,
 }) => {
+  const router = useRouter();
   const [showMenu, setShowMenu] = useState(false);
 
   const closeHandle = () => {
     setShowMenu(false);
+  };
+
+  const menuItemHandle = (url: string) => {
+    router.push(url);
   };
 
   return (
@@ -49,9 +71,10 @@ const DropdownMenu: React.FC<Props> = ({
         onClick={() => {
           setShowMenu(!showMenu);
         }}
+        style={{ cursor: "pointer" }}
       >
         {children}
-        <div style={{ position: "relative", border: "solid 1px red" }}>
+        <div style={{ position: "relative" }}>
           {showMenu && (
             <div
               style={{
@@ -70,9 +93,13 @@ const DropdownMenu: React.FC<Props> = ({
               {menu.map((item, index) =>
                 item.icon || item.title ? (
                   <div
-                    onClick={closeHandle}
+                    onClick={() => {
+                      if (item.url) menuItemHandle(item.url);
+                      if (item.func) funcs[item.func]();
+                    }}
                     key={index}
                     style={{ display: "flex", alignItems: "center" }}
+                    className=" menu-item"
                   >
                     <div>{item.icon}</div>
                     <div>{item.title}</div>
