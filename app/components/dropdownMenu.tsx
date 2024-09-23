@@ -4,6 +4,7 @@ import "./dropdownMenu.module.css";
 import { doesNotThrow } from "assert";
 import { log } from "console";
 import { useRouter } from "next/navigation";
+import logoutHandle from "@/utils/logout";
 
 const alignType = {
   left: 0,
@@ -11,15 +12,14 @@ const alignType = {
 };
 
 const funcs = {
-  logout: () => {
-    console.log("Log out!");
-  },
+  logout: logoutHandle,
 };
 
 export type MenuType = {
   title?: string;
   icon?: JSX.Element;
   url?: string;
+
   func?: "logout";
 };
 
@@ -29,6 +29,7 @@ interface Props {
   align?: "left" | "right";
   textColor?: string;
   backgrounColor?: string;
+  bgColor?: string;
 }
 
 const DropdownMenu: React.FC<Props> = ({
@@ -37,6 +38,7 @@ const DropdownMenu: React.FC<Props> = ({
   align,
   textColor,
   backgrounColor,
+  bgColor,
 }) => {
   const router = useRouter();
   const [showMenu, setShowMenu] = useState(false);

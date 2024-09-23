@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Header from "./components/header";
+import { ReactNode } from "react";
+import Footer from "./components/footer";
+import { UserProvider } from "@/utils/userContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,37 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="h-[80px] border-b">
-          <div className="mx-auto w-[1200px] bg-slate-400 h-full  flex items-center">
-            <div className="mx-8">AI</div>
-            <div className="w-full">
-              <div className="flex justify-center gap-6">
-                {menuItems.map((item, index) => (
-                  <div key={index}>
-                    <Link href={item.url}>{item.title}</Link>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="mx-8">user</div>
-          </div>
-        </header>
-        {children}
-        <footer>footer</footer>
+        <UserProvider>
+          <Header />
+          {children}
+        </UserProvider>
+        <Footer />
       </body>
     </html>
   );
 }
-
-const menuItems: { title: string; url: string }[] = [
-  { title: "Education", url: "/education" },
-  { title: "Research", url: "/research" },
-  { title: "Innovation", url: "/innovation" },
-  { title: "Admissions + Aid", url: "/admissions-aid" },
-  { title: "Campus", url: "/campus" },
-  { title: "Life", url: "/life" },
-  { title: "News", url: "/news" },
-  { title: "Alumni", url: "/alumni" },
-  { title: "About", url: "/about" },
-  { title: "Tongle", url: "/tongle" },
-];
